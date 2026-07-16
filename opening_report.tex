@@ -1,0 +1,219 @@
+% !TEX program = xelatex
+\documentclass[12pt,a4paper]{ctexart}
+
+% ==================== 页边距设置 ====================
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm]{geometry}
+
+% ==================== 全局间距压缩 ====================
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=*, itemsep=0pt, parsep=0pt, topsep=0pt, partopsep=0pt}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{2em}
+\setlength{\abovedisplayskip}{3pt plus 1pt minus 1pt}
+\setlength{\belowdisplayskip}{3pt plus 1pt minus 1pt}
+\setlength{\abovedisplayshortskip}{0pt plus 1pt}
+\setlength{\belowdisplayshortskip}{2pt plus 1pt minus 1pt}
+\setlength{\intextsep}{3pt plus 1pt minus 1pt}
+\setlength{\textfloatsep}{6pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{6pt plus 2pt minus 2pt}
+\setlength{\dblfloatsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{3pt plus 1pt minus 1pt}
+\setlength{\belowcaptionskip}{0pt}
+\AtBeginEnvironment{table}{\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.05}}
+\AtBeginEnvironment{tabular}{\small}
+\ctexset{
+    section = {
+        beforeskip = {6pt plus 2pt minus 2pt},
+        afterskip = {4pt plus 2pt minus 2pt},
+    },
+    subsection = {
+        beforeskip = {4pt plus 2pt minus 2pt},
+        afterskip = {2pt plus 1pt minus 1pt},
+    },
+    subsubsection = {
+        beforeskip = {3pt plus 1pt minus 1pt},
+        afterskip = {1pt plus 1pt minus 1pt},
+    },
+}
+
+% ==================== 字体与编码 ====================
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setmonofont{Courier New}
+
+% ==================== 中文支持 ====================
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}[AutoFakeBold=true]
+
+% ==================== 图表与图形 ====================
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{xcolor}
+
+% ==================== 数学与算法 ====================
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[ruled,linesnumbered]{algorithm2e}
+
+% ==================== 超链接与引用 ====================
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+% ==================== 文献引用 ====================
+\usepackage{cite}
+
+% ==================== 代码高亮 ====================
+\usepackage{listings}
+\lstset{
+    basicstyle=\small\ttfamily,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    xleftmargin=2em,
+    framexleftmargin=1.5em,
+    language=Python,
+    showstringspaces=false,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red}
+}
+
+% ==================== 页面样式 ====================
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small 数据挖掘课程设计开题报告}
+\fancyhead[R]{\small 基于建筑能耗对标数据的节能改造优先级评估}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ==================== 标题格式 ====================
+\ctexset{
+    section = {
+        format = {\Large\bfseries\centering},
+        name = {,、},
+        number = \chinese{section},
+    },
+    subsection = {
+        format = {\large\bfseries},
+        name = {,、},
+        number = \arabic{subsection},
+    }
+}
+
+% ==================== 文档信息 ====================
+\title{{\Huge\bfseries 数据挖掘\\[10pt] 课程设计开题报告}}
+\author{}
+\date{}
+
+\raggedbottom
+
+\begin{document}
+
+% ==================== 封面 ====================
+\maketitle
+
+\vspace{1.5cm}
+
+\begin{center}
+    {\LARGE\bfseries 基于建筑能耗对标数据的\\[8pt] 城市建筑能耗预测与节能改造优先级评估}
+
+    \vspace{2cm}
+
+    {\large\begin{tabular}{rl}
+        \textbf{课题名称：} & 基于西雅图建筑能耗对标数据的城市建筑能耗预测与节能改造优先级评估 \\
+        \textbf{课程名称：} & 数据挖掘与大数据分析 \\
+        \textbf{完成日期：} & 2026年7月 \\
+    \end{tabular}}
+\end{center}
+
+\vspace{1cm}
+\begin{center}
+    \rule{0.6\textwidth}{0.5pt}
+\end{center}
+
+\newpage
+
+% ==================== 目录 ====================
+\tableofcontents
+\newpage
+
+% ==================== 正文 ====================
+
+\input{section1_background.tex}
+
+\input{section2_literature.tex}
+
+\input{section3_objectives.tex}
+
+\input{section4_feasibility.tex}
+
+\input{section5_approach.tex}
+
+\input{section6_plan.tex}
+
+\input{section7_innovation.tex}
+
+% ==================== 参考文献 ====================
+\begin{thebibliography}{99}
+
+\bibitem{unep2020global}
+United Nations Environment Programme,
+``2020 Global Status Report for Buildings and Construction: Towards a Zero-emission, Efficient and Resilient Buildings and Construction Sector,''
+UNEP, Nairobi, 2020.
+
+\bibitem{seattle_benchmarking}
+City of Seattle,
+``Building Energy Benchmarking Data, 2015--Present,''
+Office of Planning \& Community Development,
+\url{https://data.seattle.gov/dataset/Building-Energy-Benchmarking-Data-2015-Present/bfsh-8r6z}.
+[Accessed: 2026-07].
+
+\bibitem{ashrae_energy}
+ASHRAE,
+``ASHRAE Guideline 14-2014: Measurement of Energy, Demand, and Water Savings,''
+American Society of Heating, Refrigerating and Air-Conditioning Engineers, Atlanta, GA, 2014.
+
+\bibitem{rf_breiman}
+L.~Breiman,
+``Random Forests,''
+\textit{Machine Learning}, vol.~45, no.~1, pp.~5--32, 2001.
+
+\bibitem{xgboost_chen}
+T.~Chen and C.~Guestrin,
+``XGBoost: A Scalable Tree Boosting System,''
+in \textit{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+San Francisco, CA, USA, 2016, pp.~785--794.
+
+\bibitem{lgbm_ke}
+G.~Ke, Q.~Meng, T.~Finley, \textit{et al.},
+``LightGBM: A Highly Efficient Gradient Boosting Decision Tree,''
+in \textit{Advances in Neural Information Processing Systems 30 (NIPS 2017)},
+Long Beach, CA, USA, 2017, pp.~3146--3154.
+
+\bibitem{shap_lundberg}
+S.~M.~Lundberg and S.-I.~Lee,
+``A Unified Approach to Interpreting Model Predictions,''
+in \textit{Advances in Neural Information Processing Systems 30 (NIPS 2017)},
+Long Beach, CA, USA, 2017, pp.~4765--4774.
+
+\bibitem{ahp_saaty}
+T.~L.~Saaty,
+``How to make a decision: The Analytic Hierarchy Process,''
+\textit{European Journal of Operational Research}, vol.~48, no.~1, pp.~9--26, 1990.
+
+\bibitem{energystar}
+U.S.~Environmental Protection Agency,
+``ENERGY STAR Portfolio Manager: Technical Reference,''
+EPA, 2018.
+\url{https://www.energystar.gov/buildings/portfolio-manager}. [Accessed: 2026-07].
+
+\end{thebibliography}
+
+\end{document}

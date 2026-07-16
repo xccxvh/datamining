@@ -1,0 +1,75 @@
+\section{数据来源、字段说明与文献依据}
+
+\subsection{数据来源}
+
+本研究使用两个公开数据集：
+
+1. \textbf{主数据集：}西雅图建筑能耗对标数据（Building Energy Benchmarking Data, 2015--Present），由西雅图市政府规划与社区发展办公室公开发布，包含34,699条"建筑--年份"观测记录，47个字段\cite{seattle_benchmarking}。
+
+2. \textbf{基准数据集：}按建筑类型与年份划分的基准性能范围数据（Benchmarking Performance Ranges by Building Type），提供各类建筑能耗的百分位参照\cite{seattle_benchmarking}。
+
+原始数据总规模约15 MB，适合在个人计算机上处理。
+
+\subsection{关键字段分类}
+
+主数据集含47个字段，涵盖建筑标识（ID、名称、地址）、静态属性（类型、面积、建造年份）、能源消耗（场地能耗、源能耗、EUI）、温室气体排放（总量与强度）以及ENERGY STAR评分。为避免目标泄漏并明确建模边界，所有字段按以下六类划分，分别制定使用策略：
+
+\begin{table}[H]
+\centering
+\caption{字段分类与使用策略}
+\label{tab:field_classification}
+\begin{tabular}{p{2.2cm}p{3.8cm}p{5.5cm}}
+\hline
+\textbf{类别} & \textbf{示例字段} & \textbf{使用策略} \\
+\hline
+建筑静态属性 & 建筑类型、建筑面积(GFA)、层数、建造年份、经纬度 & 保留为模型特征 \\
+\hline
+时间特征 & DataYear、BuildingAge & 保留，用于年份切分及建筑年龄计算 \\
+\hline
+建筑用途 & LargestPropertyUseType、Second/ThirdLargestPropertyUseType & 编码后作为特征 \\
+\hline
+能耗目标 & SiteEUI (kBtu/sf) & 回归目标变量 \\
+\hline
+同期能耗派生 & SourceEUI、SiteEnergyUse、SourceEnergyUse、SiteEUIWN、SourceEUIWN & 剔除——与目标使用相同年度能耗信息，预测时不可提前获取 \\
+\hline
+同期排放变量 & TotalGHGEmissions、GHGEmissionsIntensity & 预测模型中剔除，排序阶段可作为参考 \\
+\hline
+同期评分 & ENERGYSTARScore & 单独评估——作为缺失指标（ES\_Missing）参与建模，不直接作为特征 \\
+\hline
+标识字段 & OSEBuildingID、建筑名称、地址 & 不进入模型，仅用于标识 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{相关研究方法}
+
+\begin{table}[H]
+\centering
+\caption{相关研究对比}
+\label{tab:literature}
+\begin{tabular}{p{1.8cm}p{2.5cm}p{2.8cm}p{2.5cm}p{2.5cm}}
+\hline
+\textbf{方法类别} & \textbf{代表方法} & \textbf{数据类型} & \textbf{主要指标} & \textbf{局限} \\
+\hline
+工程法(白箱) & EnergyPlus, eQUEST & 建筑物理参数 & 模拟误差 & 参数要求高，难以大规模应用 \\
+\hline
+统计法(灰箱) & 线性回归、时间序列 & 历史能耗数据 & RMSE、MAE \cite{ashrae_energy} & 非线性关系捕捉能力有限 \\
+\hline
+集成学习(黑箱) & 随机森林、XGBoost、LightGBM \cite{rf_breiman}\cite{xgboost_chen}\cite{lgbm_ke} & 建筑对标数据 & $R^2$、MAE & 可解释性不足 \\
+\hline
+模型解释 & SHAP \cite{shap_lundberg} & 模型输出 & 特征重要性 & 不能解释为因果关系 \\
+\hline
+综合评价 & AHP、TOPSIS \cite{ahp_saaty} & 多指标数据 & 综合得分 & 权重主观性较强 \\
+\hline
+\end{tabular}
+\end{table}
+
+现有研究多聚焦于单一环节（仅预测或仅评价），将能耗预测、模型解释、建筑分群和改造候选排序整合为完整分析链的工作仍较少，这也是本课题的主要工作方向。
+
+\subsection{基准数据的应用}
+
+本研究将基准性能范围数据纳入分析流程，用于：
+\begin{enumerate}
+    \item 计算每栋建筑相对于同类型同年度基准SiteEUI的超耗比例：\[ \text{超耗比例} = \frac{\text{实际 SiteEUI} - \text{同类型年度基准 SiteEUI}}{\text{同类型年度基准 SiteEUI}} \]
+    \item 为优先级排序提供更客观的参照，避免医院、酒店等天然高能耗建筑因绝对SiteEUI值较高而全部位列前茅。
+\end{enumerate}
